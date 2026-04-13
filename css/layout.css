@@ -1,0 +1,276 @@
+/* ═══════════════════════════════════════════
+   SCRAPER NEXUS — LAYOUT.CSS
+   ═══════════════════════════════════════════ */
+
+/* ── Canvas / Starfield ── */
+#starfield {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, rgba(167, 139, 250, 0.8) 0%, transparent 100%);
+  border-radius: 1px;
+  animation: starfall linear infinite;
+  opacity: 0;
+}
+
+/* ── Grid overlay texture ── */
+.grid-texture {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Scanline effect ── */
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.scanline-overlay::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(transparent, rgba(124,58,237,0.07), transparent);
+  animation: scanline 4s linear infinite;
+}
+
+/* ── App wrapper ── */
+#app {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top Nav ── */
+#top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 64px;
+  background: rgba(3, 3, 10, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  gap: 12px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.nav-logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--violet-core), var(--neon-cyan));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: var(--glow-violet);
+  flex-shrink: 0;
+}
+
+.nav-logo-text {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.nav-logo-sub {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--violet-glow);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── Bottom Tab Bar ── */
+#bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 68px;
+  background: rgba(7, 7, 26, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: all var(--t-mid) var(--ease-snap);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--glass-active);
+  opacity: 0;
+  transition: opacity var(--t-mid) var(--ease-smooth);
+  border-radius: var(--radius-md);
+}
+
+.nav-tab.active {
+  color: var(--violet-glow);
+}
+
+.nav-tab.active::before {
+  opacity: 1;
+}
+
+.nav-tab-icon {
+  font-size: 20px;
+  transition: transform var(--t-mid) var(--ease-bounce);
+}
+
+.nav-tab.active .nav-tab-icon {
+  transform: scale(1.2) translateY(-1px);
+  filter: drop-shadow(0 0 8px var(--violet-bright));
+}
+
+.nav-tab-label {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Page container ── */
+#pages {
+  flex: 1;
+  padding: 16px;
+  padding-bottom: calc(68px + 16px + env(safe-area-inset-bottom, 0));
+  overflow-y: auto;
+}
+
+/* ── Page (hidden by default) ── */
+.page {
+  display: none;
+}
+.page.active {
+  display: block;
+  animation: float-up 0.4s var(--ease-snap) forwards;
+}
+
+/* ── Section header ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--violet-glow);
+}
+
+/* ── Stats grid ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* ── Agents grid ── */
+.agents-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Log list ── */
+.log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.empty-state-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
